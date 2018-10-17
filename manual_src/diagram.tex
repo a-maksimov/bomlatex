@@ -1,0 +1,112 @@
+%\documentclass[columnsxxiv,columnsxxvii,pointsubsection]{eskdtext}
+%\usepackage{eskdfreesize}	% вставка формата А3
+%
+%\input{packages}			% пакеты
+%\input{data}				% данные документы
+%\input{styles}				% настройки стиля
+%\input{setup}				% настройки документа
+%
+%\graphicspath{{images/}}
+%
+%\begin{document}
+%	
+%	\input{shortnames}	% сокращения
+%% =================================================
+% Start the picture
+\begin{tikzpicture}[%
+    start chain=going below,    % General flow is top-to-bottom
+    node distance=6mm and 5cm,	% Global setup of box spacing
+    every join/.style={norm},   % Default linetype for connecting boxes
+    ]
+% ------------------------------------------------- 
+% A few box styles 
+% <on chain> *and* <on grid> reduce the need for manual relative
+% positioning of nodes
+\tikzset{
+  node font=\small,
+  execute at begin node=\setlength{\baselineskip}{1\baselineskip},
+  base/.style={draw, on chain, on grid, align=center, minimum height=4ex},
+  proc/.style={base, rectangle, text width=8em},
+  test/.style={base, diamond, aspect=2, text width=6em},
+  term/.style={proc, rounded corners},
+  prog/.style={base,rectangle split, rectangle split horizontal,rectangle split parts=3},
+  prep/.style={base, chamfered rectangle, chamfered rectangle xsep=2cm},
+  manu/.style={base, trapezium, shape border rotate=180, text width=8em},
+  % comments
+  comm/.style={rectangle, on chain, on grid, text width=8.5cm, xshift=2.5cm},
+  % coord node style is used for placing corners of connecting lines
+  coord/.style={coordinate, on chain, on grid, node distance=6mm and 2.5cm},
+  % nmark node style is used for coordinate debugging marks
+  nmark/.style={draw, cyan, circle, font={\sffamily\bfseries}},
+  % -------------------------------------------------
+  % Connector line styles for different parts of the diagram
+  norm/.style={->, draw},
+  free/.style={->, draw},
+  cong/.style={->, draw},
+}
+% -------------------------------------------------
+% Start by placing the nodes
+\node [proc] (p0) {Экспортировать из САПР ПЭ в виде файла \texttt{bom.csv}};
+% Use join to connect a node to the previous one 
+%\node [proc, join] (p1) {Пересохранить \texttt{bom.csv} в кодировке <<UTF-8 without BOM>>};
+\node [prog, join] (p2) {\nodepart[text width=8em]{two} Запустить скрипт \texttt{bomlatex.py}};
+%\node [proc, join] (p3) {Заполнить данные ЕСКД в файл \texttt{data.tex}};
+\node [term, join] (p4) {Скомпилировать \texttt{bomlatex.tex} компилятором PDFLaTeX 2 раза};
+% No join for exits from test nodes - connections have more complex
+% requirements
+% We continue until all the blocks are positioned
+% -------------------------------------------------
+% Now we place the coordinate nodes for the connectors with angles, or
+% with annotations. We also mark them for debugging.
+  
+% -------------------------------------------------
+% A couple of boxes have annotations
+%\node [above=0mm of p4] {(Queue was empty)};
+%\node [above=0mm of p8] {(Queue was not empty)};
+% -------------------------------------------------
+% All the other connections come out of tests and need annotating
+% First, the straight north-south connections. In each case, we first
+% draw a path with a (consistently positioned) annotation node, then
+% we draw the arrow itself.
+
+% ------------------------------------------------- 
+% Now the straight east-west connections. To provide consistent
+% positioning of the test exit annotations, we have positioned
+% coordinates for the vertical part of the connectors. The annotation
+% text is positioned on a path to the coordinate, and then the whole
+% connector is drawn to its destination box.
+
+% -------------------------------------------------
+% Finally, the twisty connectors. Again, we place the annotation
+% first, then draw the connector
+
+% -------------------------------------------------
+% A last flourish which breaks all the rules
+%\draw [->,black, dotted, thick, shorten >=1mm]
+%  (p9.south) -- ++(5mm,-3mm)  -- ++(27mm,0) 
+%  |- node [black, near end, yshift=0.75em]
+%    {(When message + resources available)} (p0);
+% -------------------------------------------------
+% Now comments
+%\node [comm, right=of p1](com1) {};
+%\draw ([xshift=2.5mm]com1.north west) -- (com1.north west) -- (com1.south west) -- ([xshift=2.5mm]com1.south west);
+%\draw [dashed] (p1) -- (com1);
+%% -------------------------------------------------
+%\node [comm, right=of p2](com2) {};
+%\draw ([xshift=2.5mm]com2.north west) -- (com2.north west) -- (com2.south west) -- ([xshift=2.5mm]com2.south west);
+%\draw [dashed] (p2) -- (com2);
+%% -------------------------------------------------
+%\node [comm, right=of p3](com3) {};
+%\draw ([xshift=2.5mm]com3.north west) -- (com3.north west) -- (com3.south west) -- ([xshift=2.5mm]com3.south west);
+%\draw [dashed] (p3) -- (com3);
+%% -------------------------------------------------
+%\node [comm, right=of p4](com4) {};
+%\draw ([xshift=2.5mm]com4.north west) -- (com4.north west) -- (com4.south west) -- ([xshift=2.5mm]com4.south west);
+%\draw [dashed] (p4) -- (com4);
+% -------------------------------------------------
+\end{tikzpicture}
+% =================================================
+%\end{document}
+% based on:
+% Flowcharting techniques for easy maintenance
+% Author: Brent Longborough

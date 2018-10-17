@@ -1,0 +1,13 @@
+Designator,Name,Count,Comment
+,\centering,,
+,\centering{Конденсаторы},,
+C1,{GRM1885C1H101JA01, фирма~Murata},1,Не уст.
+C2,{GRM188R72A104KA35, фирма~Murata},1,
+,\centering,,
+{A1, A2},\centering{\underline{1 Осциллятор}},2,
+,\centering,,
+C4,{Конденсатор GRM1885C1H101JA01, фирма~Murata},1,
+,\centering,,
+{A3, A4},\centering{\underline{2 Нечто}},2,
+,\centering,,
+C6,{Конденсатор GRM188R72A104KA35, фирма~Murata},1,

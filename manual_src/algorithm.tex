@@ -1,0 +1,76 @@
+\section{Алгоритм создания перечня элементов}
+
+Алгоритм получения перечня элементов по ГОСТ средствами \LaTeX и Python представлен на рисунке~\ref{f:diagram}.
+
+\begin{figure} [H] 
+  \centering
+  \input{diagram.tex}
+  \caption{Алгоритм получения перечня элементов по ГОСТ средствами \LaTeX и Python} 
+  \label{f:diagram} 
+\end{figure}
+
+\section{Пояснения к алгоритму}
+
+Для того, чтобы получить перечень в формате pdf, необходимо
+\begin{enumerate}
+	\item экспортировать из САПР csv-файл \texttt{bom.csv}, содержащий следующие обязательные колонки данных (без группировки компонентов "--- одна запись на один компонент):
+
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{ll}
+			\toprule
+			Свойство & Пояснение \T \\ \midrule
+			\texttt{LogicalDesignator} & Позиционное обозначение \T \\
+			\texttt{ManufacturerPartNumber} & Наименование компонента \T \\
+			\texttt{Manufacturer} & Изготовитель компонента \T \\
+			\texttt{Note} & Примечания \T \\
+			\texttt{PhysicalPath} & Иерархия функциональной группы (листа) \T \\
+			\texttt{FunctionalGroupTitle} & Наименование функциональной группы (листа) \T \\
+			\texttt{FirstApply} & Первое применение \T \\
+			\texttt{Author} & Кто разработал \T \\
+			\texttt{CheckedBy} & Кто проверил \T \\
+			\texttt{NormInspection} & Нормоконтролер \T \\
+			\texttt{ApprovedBy} & Кто утвердил \T \\
+			\texttt{Organization} & Организация \T \\
+			\texttt{DocumentNumberE3} & Обозначение документа схемы \T \\
+			\texttt{Title} & Наименование документа схемы \T \\ \bottomrule
+		\end{tabular}
+	\end{table}
+и отсортированный по колонке \texttt{PhysicalPath}. %Файл \texttt{bom.csv} должен быть в кодировке <<UTF-8 without BOM>>.
+Пример содержания исходного файла представлен на рисунке~\ref{f:bom}. Функциональные группы (листы) должны иметь уникальные буквенно"=цифровые обозначения (Designator), например, \texttt{A1}, присваиваемые вручную при проектировании схемы. Параметр \texttt{FunctionalGroupTitle} должен быть внесен в свойства листа функциональной группы.
+	\item запустить скрипт \texttt{bomlatex.py}, который преобразует исходную базу данных в перечень \texttt{bom-gost.csv}, сортированный приближенно к требованиям ГОСТ 2.702-2011, с четырьмя колонками: \texttt{Designator}, \texttt{Name}, \texttt{Quantity}, \texttt{Comment}. То, каким образом будут сгруппированы компоненты, зависит от содержимого таблицы \texttt{cgroups.csv}. Скрипт также создает таблицу \texttt{latex/bom-gost-latex.csv}, адаптированную для последующей обработки в \LaTeX. Пример содержания адаптированного перечня представлен на рисунке~\ref{f:bom-gost-latex}. Данные основной надписи автоматизированно передаются в файл \texttt{/latex/data.tex}. Пример заполнения файла представлен на рисунке~\ref{f:data}.
+	\item открыть файл \texttt{bomlatex.tex} в редакторе Texmaker и запустить компиляцию PDFLaTeX два раза (первый раз компилирует файл, второй "--- выводит количество листов). В результате успешной компиляции в директории появится перечень элементов \texttt{bomlatex.pdf} (см. рисунок~\ref{f:pdf}).
+
+\end{enumerate}
+
+
+\ESKDlandscapeAIII{%
+	\begin{figure}[!t]	
+		\verbatiminput{bom.csv} %a https://tex.stackexchange.com/questions/275277/verbatiminput-causes-the-rest-of-the-code-to-be-orange-in-the-editor
+		\caption{Пример исходной базы данных texttt{bom.csv}}
+		\label{f:bom}
+	\end{figure}
+	
+	\begin{figure}[!h]
+		\centering
+		\begin{minipage}{.5\textwidth}
+			\centering
+			\verbatiminput{bom-gost-latex.csv} %a https://tex.stackexchange.com/questions/275277/verbatiminput-causes-the-rest-of-the-code-to-be-orange-in-the-editor
+			\captionof{figure}{Пример файла \texttt{latex/bom-gost-latex.csv}}
+	  		\label{f:data}
+		\end{minipage}
+		\begin{minipage}{.5\textwidth}
+			\centering
+			\verbatiminput{../bomlatex/latex/data.tex} %a https://tex.stackexchange.com/questions/275277/verbatiminput-causes-the-rest-of-the-code-to-be-orange-in-the-editor
+			\captionof{figure}{Пример заполнения файла \texttt{latex/data.tex}}
+			\label{f:data}
+		\end{minipage}
+	\end{figure}
+	}
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[scale=0.75]{../bomlatex/latex/bomlatex.pdf}
+	\caption{Пример перечня элементов, созданного в \LaTeX}
+	\label{f:pdf}
+\end{figure}

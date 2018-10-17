@@ -1,0 +1,35 @@
+%%% номер
+\newcommand{\org}{АГБП}				% организация
+\newcommand{\num}{XXXXXX.XXX}		% децимальный номер изделия
+\newcommand{\doc}{ПЭ3}				% код документа
+\newcommand{\specnum}{\num}			% децимальный номер спецификации
+
+%%% основная надпись
+\ESKDtitle{Создание перечней элементов в \LaTeX}	% наименование изделия
+\ESKDdocName{Инструкция}	% наименование документа
+\ESKDsignature{}		% обозначение документа
+\ESKDauthor{Максимов}				% автор
+\ESKDchecker{}						% проверил
+\ESKDnormContr{}					% нормоконтролер
+\ESKDapprovedBy{\hfill --- \hfill}	% утвердил
+%\renewcommand{\ESKDcolumnXfIVname}{Согласов.}
+%\ESKDcolumnXIfIV{}			% согласовал
+%\ESKDcolumnIVfI{$\text{О}$}		% литера
+% согласование документации с заказчиком:
+\ESKDcolumnXXV{}		% обозначение документа, в котором впервые записан документ
+%\ESKDcolumnXXVIII{\small Б/Н от 30.11.2009} % договор
+%\ESKDcolumnXXIX{\small 1/57Р6/43 2013}		% договор
+%\ESKDcolumnXXX{\small Согласовано: \hfill }
+
+%%% титульный лист
+% код ОКП
+\newcommand{\OKPcode}{ }
+\renewcommand{\ESKDtheTitleFieldIl}{\OKPcode}
+\ESKDtitleApprovedBy{%
+Главный конструктор}{\hfill \hfill\null}
+\ESKDtitleAgreedBy{%
+ \ }{\hfill \ \hfill\null}
+% или при наличии ЛУ:
+%\ESKDtitleApprovingSheet{XXXX.XXXXXX.XXXТУ-ЛУ}
+\renewcommand{\ESKDtheTitleFieldVI}{}
+\renewcommand{\ESKDtheTitleFieldX}{\the\year} % год
